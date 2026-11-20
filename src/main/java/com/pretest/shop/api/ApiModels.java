@@ -87,7 +87,9 @@ public final class ApiModels {
             String kodeTransaksi,
             BigDecimal totalHarga,
             String status,
-            LocalDateTime createdAt) {
+            LocalDateTime createdAt,
+            Integer jumlahBarang,
+            String ringkasanBarang) {
     }
 
     public record TransactionItemResponse(

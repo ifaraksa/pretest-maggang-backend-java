@@ -42,9 +42,19 @@ mvn spring-boot:run "-Dspring-boot.run.arguments=--server.port=8083"
 
 Tunggu sampai terminal menampilkan `Started ShopApplication`. Biarkan terminal tetap terbuka selama aplikasi digunakan; hentikan dengan `Ctrl+C`.
 
-## Tampilan Toko
+## Tampilan Demo
 
-Buka alamat dasar sesuai port yang digunakan, misalnya [http://localhost:8083/](http://localhost:8083/). Halaman ini menampilkan katalog, pencarian produk, keranjang, dan form checkout. Produk yang ditampilkan dibaca dari PostgreSQL melalui API. Jika database belum memiliki produk, katalog akan kosong sampai toko dan produk dibuat lewat API.
+Buka alamat dasar sesuai port yang digunakan, misalnya [http://localhost:8083/](http://localhost:8083/). Halaman demo menyediakan alur yang menggambarkan lima skenario pada soal:
+
+1. **Catalog:** cari produk dan jelajahi kartu produk dari PostgreSQL. Tombol **Lihat semua produk** membuka halaman katalog penuh dengan URL tersendiri, sehingga navigasi Back/Forward browser juga berfungsi.
+2. **Item:** klik nama produk atau **Lihat detail produk** untuk melihat detail dari API.
+3. **Cart:** tambahkan produk, ubah jumlah, hapus barang, lalu checkout. Checkout membuat transaksi dan mengurangi stok.
+4. **List transaction:** buka **Pesanan** untuk melihat transaksi pelanggan demo, termasuk status, tanggal, ringkasan barang, dan total.
+5. **Detail transaction:** pilih **Lihat detail transaksi** untuk melihat item, jumlah, harga, dan total transaksi.
+
+Identitas pelanggan demo disimpan di browser yang digunakan agar daftar transaksi bisa dibuka lagi setelah halaman dimuat ulang. Data ini hanya untuk demo lokal, bukan autentikasi akun. UI tidak memproses pembayaran atau pengiriman sungguhan. Jika database belum memiliki produk, katalog akan kosong sampai toko dan produk dibuat lewat API.
+
+Produk tester yang tersedia adalah headset dari **Toko Headset**, tas dari **Toko Tas**, dan jam tangan dari **Toko Jam**. Deskripsi produk sengaja memakai bahasa santai untuk membuat katalog demo terasa lebih natural.
 
 ## Pemeriksaan Status
 

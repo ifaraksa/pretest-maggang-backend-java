@@ -90,17 +90,27 @@ public class TransactionService {
         customerService.requireCustomer(customerId);
         return jdbcTemplate.query(
                 """
-                SELECT id, kode_transaksi, total_harga, status, created_at
-                FROM transaksi
-                WHERE pelanggan_id = ?
-                ORDER BY created_at DESC, id DESC
+                SELECT t.id, t.kode_transaksi, t.total_harga, t.status, t.created_at,
+                       COALESCE(di.jumlah_barang, 0) AS jumlah_barang,
+                       COALESCE(di.ringkasan_barang, '') AS ringkasan_barang
+                FROM transaksi t
+                LEFT JOIN LATERAL (
+                    SELECT COUNT(*) AS jumlah_barang,
+                           string_agg(dt.nama_barang, ', ' ORDER BY dt.id) AS ringkasan_barang
+                    FROM detail_transaksi dt
+                    WHERE dt.transaksi_id = t.id
+                ) di ON TRUE
+                WHERE t.pelanggan_id = ?
+                ORDER BY t.created_at DESC, t.id DESC
                 """,
                 (rs, rowNum) -> new TransactionSummaryResponse(
                         rs.getLong("id"),
                         rs.getString("kode_transaksi"),
                         rs.getBigDecimal("total_harga"),
                         rs.getString("status"),
-                        rs.getTimestamp("created_at").toLocalDateTime()),
+                        rs.getTimestamp("created_at").toLocalDateTime(),
+                        rs.getInt("jumlah_barang"),
+                        rs.getString("ringkasan_barang")),
                 customerId);
     }
 
